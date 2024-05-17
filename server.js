@@ -35,3 +35,16 @@ app.post('/phrases', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+app.post('/signup', async (req, res) => {
+    const { username, password } = req.body;
+
+    // Aquí deberías agregar la lógica para crear una nueva cuenta de usuario en tu base de datos
+    // Por ejemplo, puedes usar Mongoose para interactuar con tu base de datos MongoDB
+    // Este es solo un ejemplo básico, asegúrate de implementar medidas de seguridad adecuadas
+    // como el cifrado de contraseñas antes de almacenarlas en la base de datos
+
+    console.log(`New user registered: ${username}`);
+    res.sendStatus(200);
+});
+
