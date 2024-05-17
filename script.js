@@ -26,9 +26,18 @@ function enableInput() {
 }
 
 // Function to submit the user's input
-document.getElementById('submitBtn').addEventListener('click', function() {
+document.getElementById('submitBtn').addEventListener('click', async function() {
     const userInput = document.getElementById('userInput').value.trim();
     if (userInput && userInput.length <= 50) {
+        // Send the input to the backend
+        await fetch('http://localhost:3000/phrases', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text: userInput })
+        });
+
         // Append the user input to the story
         const storyText = document.getElementById('storyText');
         const newSentence = document.createElement('p');
@@ -44,5 +53,18 @@ document.getElementById('submitBtn').addEventListener('click', function() {
     }
 });
 
-// Initial call to start the timer
+// Function to load existing phrases
+async function loadPhrases() {
+    const response = await fetch('http://localhost:3000/phrases');
+    const phrases = await response.json();
+    const storyText = document.getElementById('storyText');
+    phrases.forEach(phrase => {
+        const sentence = document.createElement('p');
+        sentence.textContent = phrase.text;
+        storyText.appendChild(sentence);
+    });
+}
+
+// Initial call to start the timer and load phrases
 startTimer();
+loadPhrases();
